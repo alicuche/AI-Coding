@@ -6,7 +6,7 @@
 # root_agent
 #   |-- animal_agent
 #   |   |-- cat_agent
-#   |      |-- search_agent -> adk_tavily_tool
+#   |      |-- search_agent (openai/gpt-4o-mini) -> adk_tavily_tool
 #   |-- weather_agent -> adk_tavily_tool
 #   |-- greeting_agent
 #   |-- farewell_agent
@@ -14,6 +14,7 @@
 
 from typing import Dict, TypedDict, Literal
 from google.adk.agents import LlmAgent, Agent
+from google.adk.models.lite_llm import LiteLlm
 from google.adk.tools import google_search, agent_tool
 
 from google.adk.tools.langchain_tool import LangchainTool
@@ -32,7 +33,7 @@ tavily_tool_instance = TavilySearchResults(
 adk_tavily_tool = LangchainTool(tool=tavily_tool_instance)
 
 search_agent = LlmAgent(
-    model="gemini-2.0-flash-exp", # Required: Specify the LLM
+    model=LiteLlm(model="openai/gpt-4o-mini"),
     name="search_agent", # Requdired: Unique agent name
     description="A helpful assistant agent that can answer questions. Search internet for the given query",
     instruction="""Agent to answer questions using TavilySearch""",
